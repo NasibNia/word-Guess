@@ -1,22 +1,29 @@
-var letter  = require ('./letter.js');
+var letterConst  = require ('./letter.js');
 
-var Word = function () {
+var Word = function (value) {
+    this.value = value;
     this.wordLetters = []; 
-    this.addLetters = function (){
-        this.wordLetters.push(new letter());
+    this.makeLetters = function (){
+        for(var i = 0; i < this.value.length ; i ++){
+            var letter = new letterConst(this.value[i]);
+            this.wordLetters.push(letter);      
+        }
     };
-
-    this.string = function(){       
+    this.toString = function(){       
         var str = "";
-        for(var i = 0; i < this.wordLetters.length ; i ++){
-            str = str + letter.display();
+        for(var i = 0; i < this.value.length ; i ++){
+            str = str + this.wordLetters[i].show(); 
+            console.log("this.wordLetters is " , this.wordLetters[i].value);   
         }
         return str;
     };
-    this.check = function (char){
-        for (var i = 0 ; i < this.wordLetters ; i++){
+    this.check = function(char){
+        console.log("inside");
+        for (var i = 0 ; i < this.value.length ; i++){
+            console.log("this.wordLetters[i]  " , this.wordLetters[i]);
             this.wordLetters[i].guess(char);
         }
+        // console.log("this.wordLetters " , this.wordLetters );
     };
 };
 

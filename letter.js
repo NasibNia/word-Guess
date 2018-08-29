@@ -1,7 +1,7 @@
 var Letter = function (value){
     this.value = value;
     this.guessedYet = false; 
-    this.display = function (){
+    this.show = function(){
         if (this.guessedYet) {
             return this.value;
         } else {
@@ -11,7 +11,7 @@ var Letter = function (value){
     this.guess = function(char){
         if (this.value === char){
             this.guessedYet  = true;
-        }
+        } 
     };
 };
 

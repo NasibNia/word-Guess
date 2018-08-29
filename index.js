@@ -3,10 +3,18 @@ var word = require('./word.js');
 
 // The list of words for the computer guess
 var list  = ["cherry" , "banana" , "limon"];
-
-//============================= Selecting Random Word =====================
+//This variable checks if all the words in the list are already guessed
+var outOfWords;
 // create a tracker object to not select a world which is already selected
 var trackObj = {};
+
+function initialize () {
+    outOfWords = false;
+    trackObj = {};   
+}
+
+//============================= Selecting Random Word =====================
+
 //randomly select a word
 function randomWord (){
   // create a random number between 0 to the length of the list of words
@@ -22,6 +30,7 @@ function randomWord (){
       // if it is, check to see that we have covered the whole list yet or not.
       if(Object.keys(trackObj).length === list.length){
            console.log("we covered the whole list");
+           outOfWords = true;
            return;
       } else {
           // if the word was already picked from the list, run the function again
@@ -41,6 +50,45 @@ function randomWord (){
 // };
 // tst_randomWord();
 //============================= Selecting Random Word =====================
+
+if (outOfWords) {
+    console.log("play again?");
+    //put an inquirer to ask
+
+
+    //if yes 
+    initialize();
+    playGame();
+} else {
+    playGame();
+}
+ 
+function playGame (){
+    var guessCount = 0;
+    var tmp = randomWord();
+    var newWord = new word(tmp);
+    newWord.makeLetters();
+
+    //user guess
+    var userGuess = "i";
+
+    console.log ("newWord is " , newWord); 
+    console.log ("newWord.wordLetters is " , newWord.wordLetters); 
+     
+    console.log ("newWord.toString is " , newWord.toString()); 
+    console.log ("newWord.check is " , newWord.check(userGuess));
+
+    // console.log(newWord.check("i"));
+    
+
+}
+
+
+
+
+
+
+
 
 
 
