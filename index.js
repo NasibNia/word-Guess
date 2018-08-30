@@ -110,11 +110,21 @@ function playGame (){
 
         if (!newWord.allGussed){
             // console.log("newWord.allGuessed  " + newWord.allGussed);
+            
+            
+            
             playGame();
         }
         else{
             console.log("You got it right! Next word!");
             console.log("\n-------------------------\n");
+            tmp = randomWord();
+            newWord = new word(tmp);
+            //call makeLetters function on newWord to create an array of Letter objects
+            newWord.makeLetters();
+            newWord.toString();
+            console.log (newWord.toString());
+            
             initialize();
             playGame();
 
