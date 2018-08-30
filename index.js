@@ -31,6 +31,8 @@ function randomWord (){
   //select the random word from list
   var randWord = list[indx];
   console.log("random word is " + randWord);
+
+  console.log("track object " , trackObj);
   
   //check to see if random word is already selected or not
   if (randWord in trackObj){
@@ -43,11 +45,12 @@ function randomWord (){
            return;
       } else {
           // if the word was already picked from the list, run the function again
+        trackObj[randomWord] = true;
         randomWord();
       }     
   } // if the random word has not already selected, add it to the trackObj for the future reference and return it.
   else {
-      console.log("adding it to the tracker");
+    console.log("adding it to the tracker");
      trackObj[randWord] = true;
      return randWord;
   }  
@@ -70,20 +73,25 @@ newWord.toString();
 console.log (newWord.toString());
 
 // console.log ("newWord   " , newWord);
-if (outOfWords) {
-    console.log("play again?");
-    //put an inquirer to ask
+// if (outOfWords) {
+//     console.log("play again?");
+//     //put an inquirer to ask
 
 
-    //if yes 
-    initialize();
+//     //if yes 
+//     initialize();
 
-    playGame();
-} else {
-    initialize();
-    playGame();
+//     playGame();
+// } else {
+//     initialize();
+//     playGame();
+// }
+initialize();
+playGame(); 
+var previousState = [];
+for (var i  = 0 ; i< tmp.length ; i++){
+    previousState.push(false);
 }
- 
 
 
 function playGame (){
@@ -95,28 +103,52 @@ function playGame (){
             name: "guess"
         }
     ]).then (function(response){
-
+        // newWord.correct = [];
         userGuess = response.guess;
         
         //run the check function on new word object to see if any of its letters matches the user guess.
         newWord.check(userGuess);
-        
         newWord.toString();
         console.log (newWord.toString()); 
-        
 
-        // console.log ("newWord.allGussed   " , newWord.ayllGussed);
+
+        // // console.log("correct array  " , newWord.correct);
+        // console.log( " previousState  was " + previousState );
+        // console.log( " currentState  was " + newWord.correct );
+        // console.log(previousState === newWord.correct);
+
+
+        if (areSameArr(previousState , newWord.correct)){
+            console.log (chalk.red("Incorrect!!!!!"));
+        } else {
+            previousState = newWord.correct;
+            console.log (chalk.green("Correct"));
+            
+        }
+        
+        // if (newWord.correctArr.indexOf(true) !== -1){
+        //     console.log ("Correct");
+        // } else {
+        //     console.log ("Incorrect");
+        // }
+        // console.log( "flag   " + newWord.flag);
+        // if (newWord.flag === 1) {
+        //     console.log ("Correct");
+        // } else {
+        //     console.log ("Incorrect");
+
+        // }
+        
+        // console.log ("newWord.allGussed   ~~~~~" , newWord.allGussed);
         // playGame();
 
         if (!newWord.allGussed){
-            // console.log("newWord.allGuessed  " + newWord.allGussed);
-            
-            
-            
+            // console.log("newWord.allGuessed  " + newWord.allGussed);   
             playGame();
         }
         else{
-            console.log("You got it right! Next word!");
+            console.log("\n");
+            console.log(chalk.blue("You got it right! Next word!"));
             console.log("\n-------------------------\n");
             tmp = randomWord();
             newWord = new word(tmp);
@@ -131,6 +163,15 @@ function playGame (){
         }
     });
 
+}
+
+function areSameArr (a,b){
+    for(var i= 0 ; i < a.length ; i++){
+        if (a[i] !== b[i]){
+            return false;
+        }
+    }
+    return true;
 }
 
 
