@@ -9,10 +9,13 @@ var list  = ["caherry" , "bananay" , "limoany"];
 var outOfWords;
 // create a tracker object to not select a world which is already selected
 var trackObj = {};
+var userGuess;
+var wordComplete;
 
 function initialize () {
     outOfWords = false;
-    trackObj = {};   
+    trackObj = {}; 
+    wordComplete = false;
 }
 
 //============================= Selecting Random Word =====================
@@ -65,29 +68,45 @@ if (outOfWords) {
     playGame();
 }
  
+var guessCount = 0;
+
 function playGame (){
-    var guessCount = 0;
     var tmp = randomWord();
     var newWord = new word(tmp);
     //call makeLetters function on newWord to create an array of Letter objects
     newWord.makeLetters();
 
-    //take user guess
-    var userGuess = "y";
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "guess a letter?",
+            name: "guess"
+        }
+    ]).then (function(response){
+        guessCount++;
+        userGuess = response.guess;
+        if (!newWord.allGussed){
+            //run the check function on new word object to see if any of its letters matches the user guess.
+            newWord.check(userGuess);
+            newWord.toString();
+            console.log (newWord.toString()); 
+            
+            playGame();
+        }
+        else{
+            console.log("You got it right");
+        }
+    });
 
+        
 
+    
 
-
-    //run the check function on new word object to see if any of its letters matches the user guess.
-    newWord.check(userGuess);
-    newWord.toString();
-    console.log (newWord.toString()); 
 
 
 
 
 }
-
 
 
 

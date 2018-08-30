@@ -3,6 +3,7 @@ var letterConst  = require ('./letter.js');
 function Word (value) {
     this.value = value;
     this.wordLetters = []; 
+    this.allGussed = false;
     this.makeLetters = function (){
         this.wordLetters = [];
         for(var i = 0; i < this.value.length ; i ++){
@@ -18,10 +19,17 @@ function Word (value) {
         return str;
     };
     this.check = function(char){
-        console.log("inside");
+        var correctGuess = 0;
         for (var i = 0 ; i < this.value.length ; i++){
             var thisLetter = this.wordLetters[i];
             thisLetter.ifGuess(char);
+            
+            if(thisLetter.gussedYet){
+                correctGuess++;
+            }
+        }
+        if(correctGuess === this.value.length){
+            this.allGussed = true;
         }
     };
 };
