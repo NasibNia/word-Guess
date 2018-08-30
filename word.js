@@ -22,13 +22,22 @@ function Word (value) {
         var correctGuess = 0;
         for (var i = 0 ; i < this.value.length ; i++){
             var thisLetter = this.wordLetters[i];
-            thisLetter.ifGuess(char);
-            
-            if(thisLetter.gussedYet){
+            // console.log("this Letter is "  , thisLetter.value);
+            thisLetter.ifGuess(char); 
+
+            // console.log("this Letter is "  + thisLetter.guessedYet);         
+            if(thisLetter.guessedYet){
+                // console.log("hey");
                 correctGuess++;
+                // console.log("correctGuess  "+ correctGuess);
             }
         }
+        for (var i = 0 ; i < this.value.length ; i++){
+            var tmp = this.wordLetters[i];
+            // console.log("this Letter is "  + tmp.guessedYet);  
+        }
         if(correctGuess === this.value.length){
+            console.log("word complete");
             this.allGussed = true;
         }
     };

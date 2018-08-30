@@ -2,6 +2,9 @@
 var word = require('./word.js');
 // Bringing in the inquirer
 var inquirer = require ('inquirer');
+//Bringing in the chalk to change the color in terminal
+var chalk = require('chalk');
+ 
 
 // The list of words for the computer guess
 var list  = ["caherry" , "bananay" , "limoany"];
@@ -16,6 +19,7 @@ function initialize () {
     outOfWords = false;
     trackObj = {}; 
     wordComplete = false;
+
 }
 
 //============================= Selecting Random Word =====================
@@ -56,6 +60,16 @@ function randomWord (){
 // tst_randomWord();
 //============================= Selecting Random Word =====================
 
+var guessCount = 0;
+
+var tmp = randomWord();
+var newWord = new word(tmp);
+//call makeLetters function on newWord to create an array of Letter objects
+newWord.makeLetters();
+newWord.toString();
+console.log (newWord.toString());
+
+// console.log ("newWord   " , newWord);
 if (outOfWords) {
     console.log("play again?");
     //put an inquirer to ask
@@ -63,19 +77,17 @@ if (outOfWords) {
 
     //if yes 
     initialize();
+
     playGame();
 } else {
+    initialize();
     playGame();
 }
  
-var guessCount = 0;
 
-var tmp = randomWord();
-var newWord = new word(tmp);
-//call makeLetters function on newWord to create an array of Letter objects
-newWord.makeLetters();
 
 function playGame (){
+     
     inquirer.prompt([
         {
             type: "input",
@@ -83,34 +95,32 @@ function playGame (){
             name: "guess"
         }
     ]).then (function(response){
+
         userGuess = response.guess;
+        
+        //run the check function on new word object to see if any of its letters matches the user guess.
+        newWord.check(userGuess);
+        
+        newWord.toString();
+        console.log (newWord.toString()); 
+        
+
+        // console.log ("newWord.allGussed   " , newWord.ayllGussed);
+        playGame();
+
         if (!newWord.allGussed){
-            //run the check function on new word object to see if any of its letters matches the user guess.
-            newWord.check(userGuess);
-            newWord.toString();
-            console.log (newWord.toString()); 
-            
-            playGame();
+            // console.log("newWord.allGuessed  " + newWord.allGussed);
+            // playGame();
         }
         else{
-            console.log("You got it right");
+            console.log("You got it right! Next word!");
+            console.log("\n-------------------------\n");
+
         }
     });
 
-        
-
-    
-
-
-
-
-
 }
 
-
-function askForUserGuess () {
-
-}
 
 
 
