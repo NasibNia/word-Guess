@@ -1,8 +1,10 @@
 //Bringing in the constructor word.js
 var word = require('./word.js');
+// Bringing in the inquirer
+var inquirer = require ('inquirer');
 
 // The list of words for the computer guess
-var list  = ["cherry" , "banana" , "limon"];
+var list  = ["caherry" , "bananay" , "limoany"];
 //This variable checks if all the words in the list are already guessed
 var outOfWords;
 // create a tracker object to not select a world which is already selected
@@ -67,19 +69,22 @@ function playGame (){
     var guessCount = 0;
     var tmp = randomWord();
     var newWord = new word(tmp);
+    //call makeLetters function on newWord to create an array of Letter objects
     newWord.makeLetters();
 
-    //user guess
-    var userGuess = "i";
+    //take user guess
+    var userGuess = "y";
 
-    console.log ("newWord is " , newWord); 
-    console.log ("newWord.wordLetters is " , newWord.wordLetters); 
-     
-    console.log ("newWord.toString is " , newWord.toString()); 
-    console.log ("newWord.check is " , newWord.check(userGuess));
 
-    // console.log(newWord.check("i"));
-    
+
+
+    //run the check function on new word object to see if any of its letters matches the user guess.
+    newWord.check(userGuess);
+    newWord.toString();
+    console.log (newWord.toString()); 
+
+
+
 
 }
 

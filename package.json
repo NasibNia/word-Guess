@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/NasibNia/word-Guess/issues"
   },
-  "homepage": "https://github.com/NasibNia/word-Guess#readme"
+  "homepage": "https://github.com/NasibNia/word-Guess#readme",
+  "dependencies": {
+    "inquirer": "^6.2.0"
+  }
 }

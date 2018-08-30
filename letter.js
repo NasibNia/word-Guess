@@ -1,14 +1,14 @@
-var Letter = function (value){
+function Letter (value){
     this.value = value;
     this.guessedYet = false; 
     this.show = function(){
         if (this.guessedYet) {
-            return this.value;
+            return this.value+" ";
         } else {
-            return "_";
+            return "_ ";
         }      
     };
-    this.guess = function(char){
+    this.ifGuess = function(char){
         if (this.value === char){
             this.guessedYet  = true;
         } 
