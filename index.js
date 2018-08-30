@@ -7,7 +7,7 @@ var chalk = require('chalk');
  
 
 // The list of words for the computer guess
-var list  = ["caherry" , "bananay" , "limoany"];
+var list  = ["chry" , "ban" , "lim"];
 //This variable checks if all the words in the list are already guessed
 var outOfWords;
 // create a tracker object to not select a world which is already selected
@@ -106,15 +106,17 @@ function playGame (){
         
 
         // console.log ("newWord.allGussed   " , newWord.ayllGussed);
-        playGame();
+        // playGame();
 
         if (!newWord.allGussed){
             // console.log("newWord.allGuessed  " + newWord.allGussed);
-            // playGame();
+            playGame();
         }
         else{
             console.log("You got it right! Next word!");
             console.log("\n-------------------------\n");
+            initialize();
+            playGame();
 
         }
     });
