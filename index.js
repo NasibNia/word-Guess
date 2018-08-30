@@ -70,12 +70,12 @@ if (outOfWords) {
  
 var guessCount = 0;
 
-function playGame (){
-    var tmp = randomWord();
-    var newWord = new word(tmp);
-    //call makeLetters function on newWord to create an array of Letter objects
-    newWord.makeLetters();
+var tmp = randomWord();
+var newWord = new word(tmp);
+//call makeLetters function on newWord to create an array of Letter objects
+newWord.makeLetters();
 
+function playGame (){
     inquirer.prompt([
         {
             type: "input",
@@ -83,7 +83,6 @@ function playGame (){
             name: "guess"
         }
     ]).then (function(response){
-        guessCount++;
         userGuess = response.guess;
         if (!newWord.allGussed){
             //run the check function on new word object to see if any of its letters matches the user guess.
@@ -109,6 +108,9 @@ function playGame (){
 }
 
 
+function askForUserGuess () {
+
+}
 
 
 
