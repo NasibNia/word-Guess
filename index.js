@@ -27,7 +27,8 @@ cFontDisplay("======================", 'chrome');
 
 //======================================================
 if (outOfWords) {
-    console.log("Wow, you covered all of our fruits!");
+    console.log("Wow, you covered all of our fruits! Let's reset the list!");
+    trackObj = {};
 }
 var newWord = initialize();
 playGame(newWord);
@@ -157,7 +158,7 @@ function cFontDisplay (str , format){
         font: format,              // define the font face
         align: 'center',              // define text alignment
         colors: ['magenta','blue','cyan'],         // define all colors
-        background: 'transparent',  // define the background color, you can also use            `backgroundColor` here as key
+        background: 'transparent',  // define the background color, you can also use        `backgroundColor` here as key
         letterSpacing: 0,           // define letter spacing
         lineHeight: 0,              // define the line height
         space: false,                // define if the output text should have empty lines on top and on the bottom
