@@ -6,13 +6,13 @@ function Word (value) {
     this.allGussed = false;
     this.correct = [];
 
-    this.makeLetters = function (){
-        this.wordLetters = [];
-        for(var i = 0; i < this.value.length ; i ++){
-            var letter = new letterConst(this.value[i]);
-            this.wordLetters.push(letter);      
-        }
-    };
+    
+    this.wordLetters = [];
+    for(var i = 0; i < this.value.length ; i ++){
+        var letter = new letterConst(this.value[i]);
+        this.wordLetters.push(letter);      
+    }
+   
     this.toString = function(){       
         var str = "";
         for(var i = 0; i < this.value.length ; i ++){
@@ -33,18 +33,10 @@ function Word (value) {
             if(thisLetter.guessedYet){
                 correct.push(true);
                 correctGuess++;
-                // console.log("correctGuess  "+ correctGuess);
+             // console.log("correctGuess  "+ correctGuess);
             } else{
                 correct.push(false);
             }
-
-
-            // if(thisLetter.value in this.correct){
-            //     console.log("incorrect");  
-            //   } else {
-            //       this.correct[thisLetter.value] = true;
-            //       console.log("correct");
-            //   }
 
         }
         for (var i = 0 ; i < this.value.length ; i++){

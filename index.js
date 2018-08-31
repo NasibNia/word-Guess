@@ -15,6 +15,9 @@ var trackObj = {};
 var userGuess;
 var wordComplete;
 var wordCount = 0;
+var MaxGuess = 12;
+var guessLeft;
+var previousState = [];
 
 //display the game header 
 cFontDisplay('FRUITY | HANGMAN','block');
@@ -22,189 +25,123 @@ cFontDisplay("======================", 'chrome');
 cFontDisplay("Let's get to some|fruits!",'chrome');
 cFontDisplay("======================", 'chrome');
 
-function initialize () {
-    outOfWords = false;
-    trackObj = {}; 
-    wordComplete = false;
-
+//======================================================
+if (outOfWords) {
+    console.log("Wow, you covered all of our fruits!");
 }
-
-//============================= Selecting Random Word =====================
+var newWord = initialize();
+playGame(newWord);
+//======================================================
 
 //randomly select a word
 function randomWord (){
-  // create a random number between 0 to the length of the list of words
-  var indx = Math.floor(Math.random()*list.length);
-  //select the random word from list
-  var randWord = list[indx];
-//   console.log("random word is " + randWord);
-
-//   console.log("track object " , trackObj);
+    // create a random number between 0 to the length of the list of words
+    var indx = Math.floor(Math.random()*list.length);
+    //select the random word from list
+    var randWord = list[indx];
+    //check to see if random word is already selected or not
+    if (randWord in trackObj){
   
-  //check to see if random word is already selected or not
-  if (randWord in trackObj){
-      console.log("already selected");
-
       // if it is, check to see that we have covered the whole list yet or not.
-      if(Object.keys(trackObj).length === list.length){
-           console.log("we covered the whole list");
-           outOfWords = true;
-           return;
-      } else {
-          // if the word was already picked from the list, run the function again
-        trackObj[randomWord] = true;
-        randomWord();
-      }     
-  } // if the random word has not already selected, add it to the trackObj for the future reference and return it.
-  else {
-    // console.log("adding it to the tracker");
-     trackObj[randWord] = true;
-     return randWord;
-  }  
-}
-// function  tst_randomWord(){
-//     randomWord();
-//     console.log("test " + tst_randomWord+ "\n");
-//     console.log("trackObj " , trackObj );
-// };
-// tst_randomWord();
-//============================= Selecting Random Word =====================
-// Convert the gif file into text frames
+        if(Object.keys(trackObj).length === list.length){
+             console.log("we covered the whole list");
+             outOfWords = true;
+             return;
+        } else {
+            // if the word was already picked from the list, run the function again
+          trackObj[randomWord] = true;
+          randomWord();
+        }     
+    } // if the random word has not already selected, add it to the trackObj for the future reference and return it.
+    else {
+      // console.log("adding it to the tracker");
+       trackObj[randWord] = true;
+       return randWord;
+    }  
+ }
 
-var guessLeft = 15;
-var tmp = randomWord();
-wordCount++;
-console.log(chalk.magenta.bold.bgCyan("Word Number "+ wordCount));
-var newWord = new word(tmp);
-//call makeLetters function on newWord to create an array of Letter objects
-newWord.makeLetters();
-newWord.toString();
-console.log (newWord.toString());
+// function to initialize the parameters for the game
+function initialize () {
+    outOfWords = false;
+    wordComplete = false;
+    // setting up the left gesses number to the the max value defined at the begining of the code
+    guessLeft = MaxGuess;
+    wordCount++;
+    console.log(chalk.magenta.bold.bgCyan("Word Number "+ wordCount));
+    // create a random word
+    var tmp = randomWord();
+    // save it into an object of constructor Word
+    var newWord = new word(tmp);
+    newWord.toString();
+    console.log (newWord.toString());
 
-// console.log ("newWord   " , newWord);
-// if (outOfWords) {
-//     console.log("play again?");
-//     //put an inquirer to ask
-
-
-//     //if yes 
-//     initialize();
-
-//     playGame();
-// } else {
-//     initialize();
-//     playGame();
-// }
-initialize();
-playGame(); 
-var previousState = [];
-for (var i  = 0 ; i< tmp.length ; i++){
-    previousState.push(false);
+    for (var i  = 0 ; i< tmp.length ; i++){
+        previousState.push(false);
+    }
+    return newWord;
 }
 
+//function to actually play the game with the object newWord being passed to it!
+function playGame (newWord){
 
-
-function playGame (){
-
+    // if there is still guesses left:
     if(guessLeft>0) {
         console.log("guesses left " + guessLeft);
-     
+        
+        // ask for user guess
         inquirer.prompt([
             {
                 type: "input",
                 message: "guess a letter?",
                 name: "guess"
             }
-        ]).then (function(response){
-            
+        ]).then (function(response){           
+            //decrement the guess left
             guessLeft--;
-            userGuess = response.guess;
-            
+            // asign the user input to the variable userGuess
+            userGuess = response.guess;           
             //run the check function on new word object to see if any of its letters matches the user guess.
             newWord.check(userGuess);
+            // show the either the value of letters or the _ on the screen , depending on whether user has made a correct guess
             newWord.toString();
             console.log (newWord.toString()); 
 
-
+            // check to see if the guessed status of each letter object in the word has changed from its previous status ( for instance if the state [true,false,false] for a 3-letter word has changed to [true,false, true] that means the guess was correct and matched one of the letters. )
             if (areSameArr(previousState , newWord.correct)){
                 console.log (chalk.red("Incorrect!!!!!"));
             } else {
                 previousState = newWord.correct;
-                console.log (chalk.green("Correct"));
-                
+                console.log (chalk.green("Correct"));               
             }
-            
-            // if (newWord.correctArr.indexOf(true) !== -1){
-            //     console.log ("Correct");
-            // } else {
-            //     console.log ("Incorrect");
-            // }
-            // console.log( "flag   " + newWord.flag);
-            // if (newWord.flag === 1) {
-            //     console.log ("Correct");
-            // } else {
-            //     console.log ("Incorrect");
-
-            // }
-            
-            // console.log ("newWord.allGussed   ~~~~~" , newWord.allGussed);
-            // playGame();
-
+            // user gets to continue guessing if still there are letters remained unrevealed
             if (!newWord.allGussed){
-                // console.log("newWord.allGuessed  " + newWord.allGussed);   
-                playGame();
+                playGame(newWord);
             }
             else{
+                // console log the results and get back to the begining
                 console.log(chalk.bgCyan.bold("You got it right! Next word!"));
                 console.log("\n-------------------------\n");
-                guessLeft = 15;
-                tmp = randomWord();
-                wordCount++;
-                console.log(chalk.magenta.bold.bgCyan("Word Number " + wordCount));
-                
-                newWord = new word(tmp);
-                //call makeLetters function on newWord to create an array of Letter objects
-                newWord.makeLetters();
-                newWord.toString();
-                console.log (newWord.toString());
-                
-                initialize();
-                playGame();
 
+                // initialize the parameters, pick a random fruit and play the game
+                newWord = initialize();
+                playGame(newWord);
             }
         });
-    } else {
+    } // if no guess left 
+    else {
+        // console log the information and repeat the game
         console.log (chalk.red.bold.bgYellow("you have no guess left"));
         console.log (chalk.red.bold("it was   ") + chalk.blue.bold(newWord.value));
         console.log(chalk.green.bold("That's Ok, We have lots of other fruits for you to guess"));
         console.log("\n-------------------------\n");
-        
-        // inquirer.prompt([
-        //     {
-        //         type:"confirm",
-        //         message : "You want to play more"
 
-        //     }
-        // ]).then(function(){
-
-        // });
-        guessLeft = 15;
-        tmp = randomWord();
-        wordCount++;
-        console.log(chalk.magenta.bold.bgCyan("Word Number " + wordCount));
-        
-        newWord = new word(tmp);
-        //call makeLetters function on newWord to create an array of Letter objects
-        newWord.makeLetters();
-        newWord.toString();
-        console.log (newWord.toString());
-        
-        initialize();
-        playGame();
+        // initialize the parameters, pick a random fruit and play the game
+        newWord = initialize();
+        playGame(newWord);
     }
-
 }
 
+// function that compares two array against each other
 function areSameArr (a,b){
     for(var i = 0 ; i < a.length ; i++){
         if (a[i] !== b[i]){
@@ -220,7 +157,7 @@ function cFontDisplay (str , format){
         font: format,              // define the font face
         align: 'center',              // define text alignment
         colors: ['magenta','blue','cyan'],         // define all colors
-        background: 'transparent',  // define the background color, you can also use `backgroundColor` here as key
+        background: 'transparent',  // define the background color, you can also use            `backgroundColor` here as key
         letterSpacing: 0,           // define letter spacing
         lineHeight: 0,              // define the line height
         space: false,                // define if the output text should have empty lines on top and on the bottom
