@@ -69,12 +69,6 @@ If there are guesses left ; the game asks the player to make a guess. then would
 # code snippets
 <!-- put snippets of code inside ``` ``` so it will look like code -->
 <!-- if you want to put blockquotes use a > -->
-This block of the code shows the constructor for the Letter object
-this object will own these properties: value which its content, and gussedYet which is a boolean describing whether this letter is gussed or not.
-The object also owns two methods:
-Show which displays the letter content or empty space on the screen depending on whether the letter is guessed or not, and the second method is ifGuess which actually updated the gussedYet property
-# Explanation of Code
-
 ```
 function Letter (value){
     this.value = value;
@@ -94,14 +88,12 @@ function Letter (value){
         return false;
     };
 };
-
-
 ```
 # Explanation of Code
-
-This block of code is the function that takes a word object parameter, and does the play!
-the logic is as follows:
-if there are guesses left ; the game asks the player to make a guess. then would take this guess and checks it against all the letter objects inside the word object; if any of the letters change their guess status from false to true, that would be considered as a correct guess. the display would also be updated accordingly to reveal the letter value. if not, the play continues until whether all the letters in the word are guessed correctly or player runs out of eligible number of guesses. In either case, player would be informed and new word will be created to continue the game.
+This block of the code shows the constructor for the Letter object
+this object will own these properties: value which its content, and gussedYet which is a boolean describing whether this letter is gussed or not.
+The object also owns two methods:
+Show which displays the letter content or empty space on the screen depending on whether the letter is guessed or not, and the second method is ifGuess which actually updated the gussedYet property
 
 ```
 function playGame (newWord){
@@ -160,6 +152,11 @@ function playGame (newWord){
     }
 }
 ```
+# Explanation of Code
+
+This block of code is the function that takes a word object parameter, and does the play!
+the logic is as follows:
+if there are guesses left ; the game asks the player to make a guess. then would take this guess and checks it against all the letter objects inside the word object; if any of the letters change their guess status from false to true, that would be considered as a correct guess. the display would also be updated accordingly to reveal the letter value. if not, the play continues until whether all the letters in the word are guessed correctly or player runs out of eligible number of guesses. In either case, player would be informed and new word will be created to continue the game.
 
 # Learning points
 <!-- Learning points where you would write what you thought was helpful -->
