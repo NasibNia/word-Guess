@@ -11,8 +11,9 @@ function Letter (value){
     this.ifGuess = function(char){
         if (this.value === char){
             this.guessedYet  = true;
-
+            return true;
         } 
+        return false;
     };
 };
 

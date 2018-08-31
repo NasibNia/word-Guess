@@ -6,14 +6,6 @@ var inquirer = require ('inquirer');
 var chalk = require('chalk'); 
 var CFonts = require('cfonts');
 
-//display the game header 
-cFontDisplay('FRUITY | HANGMAN','block');
-cFontDisplay("======================", 'chrome');
-cFontDisplay("Let's get to some|fruits!",'chrome');
-cFontDisplay("======================", 'chrome');
-
-
-
 // The list of words for the computer guess
 var list  = ["apple", "apricot", "avocado", "banana", "bilberry", "black sapote", "blackberry", "blackcurrant", "blueberry", "boysenberry", "cantaloupe", "cherry", "clementine", "cloudberry", "coconut", "crab apples", "cranberry", "cucumber", "currant", "damson", "date", "dragonfruit", "durian", "elderberry", "fig", "gooseberry", "grape", "grapefruit", "guava", "honeyberry", "honeydew", "huckleberry", "jackfruit", "jostaberry", "kiwi", "lemon", "lime", "mandarine", "mango", "mangosteen", "marionberry", "melon", "mulberry", "nectarine", "olive", "orange", "papaya", "passionfruit", "peach", "pear", "persimmon", "pineapple", "pineberry", "plum", "pomegranate", "prune", "raisin", "raspberry", "starfruit", "strawberry", "tangerine", "watermelon"];
 //This variable checks if all the words in the list are already guessed
@@ -23,6 +15,12 @@ var trackObj = {};
 var userGuess;
 var wordComplete;
 var wordCount = 0;
+
+//display the game header 
+cFontDisplay('FRUITY | HANGMAN','block');
+cFontDisplay("======================", 'chrome');
+cFontDisplay("Let's get to some|fruits!",'chrome');
+cFontDisplay("======================", 'chrome');
 
 function initialize () {
     outOfWords = false;
@@ -73,14 +71,13 @@ function randomWord (){
 //============================= Selecting Random Word =====================
 // Convert the gif file into text frames
 
-var guessLeft = 6;
+var guessLeft = 15;
 var tmp = randomWord();
 wordCount++;
 console.log(chalk.magenta.bold.bgCyan("Word Number "+ wordCount));
 var newWord = new word(tmp);
 //call makeLetters function on newWord to create an array of Letter objects
 newWord.makeLetters();
-
 newWord.toString();
 console.log (newWord.toString());
 
@@ -160,7 +157,7 @@ function playGame (){
             else{
                 console.log(chalk.bgCyan.bold("You got it right! Next word!"));
                 console.log("\n-------------------------\n");
-                guessLeft = 10;
+                guessLeft = 15;
                 tmp = randomWord();
                 wordCount++;
                 console.log(chalk.magenta.bold.bgCyan("Word Number " + wordCount));
@@ -177,7 +174,7 @@ function playGame (){
             }
         });
     } else {
-        console.log (chalk.red.bold("you have no guess left"));
+        console.log (chalk.red.bold.bgYellow("you have no guess left"));
         console.log (chalk.red.bold("it was   ") + chalk.blue.bold(newWord.value));
         console.log(chalk.green.bold("That's Ok, We have lots of other fruits for you to guess"));
         console.log("\n-------------------------\n");
@@ -191,7 +188,7 @@ function playGame (){
         // ]).then(function(){
 
         // });
-        guessLeft = 10;
+        guessLeft = 15;
         tmp = randomWord();
         wordCount++;
         console.log(chalk.magenta.bold.bgCyan("Word Number " + wordCount));
