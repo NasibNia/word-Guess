@@ -2,9 +2,8 @@
 var word = require('./word.js');
 // Bringing in the inquirer
 var inquirer = require ('inquirer');
-//Bringing in the chalk to change the color in terminal
+//Bringing in the chalk and cFonts to change the color in terminal
 var chalk = require('chalk'); 
-
 var CFonts = require('cfonts');
 
 //display the game header 
@@ -23,6 +22,7 @@ var outOfWords;
 var trackObj = {};
 var userGuess;
 var wordComplete;
+var wordCount = 0;
 
 function initialize () {
     outOfWords = false;
@@ -73,11 +73,14 @@ function randomWord (){
 //============================= Selecting Random Word =====================
 // Convert the gif file into text frames
 
-var guessCount = 0;
+var guessLeft = 6;
 var tmp = randomWord();
+wordCount++;
+console.log(chalk.magenta.bold.bgCyan("Word Number "+ wordCount));
 var newWord = new word(tmp);
 //call makeLetters function on newWord to create an array of Letter objects
 newWord.makeLetters();
+
 newWord.toString();
 console.log (newWord.toString());
 
@@ -105,77 +108,107 @@ for (var i  = 0 ; i< tmp.length ; i++){
 
 
 function playGame (){
+
+    if(guessLeft>0) {
+        console.log("guesses left " + guessLeft);
      
-    inquirer.prompt([
-        {
-            type: "input",
-            message: "guess a letter?",
-            name: "guess"
-        }
-    ]).then (function(response){
-        // newWord.correct = [];
-        userGuess = response.guess;
-        
-        //run the check function on new word object to see if any of its letters matches the user guess.
-        newWord.check(userGuess);
-        newWord.toString();
-        console.log (newWord.toString()); 
-
-
-        // // console.log("correct array  " , newWord.correct);
-        // console.log( " previousState  was " + previousState );
-        // console.log( " currentState  was " + newWord.correct );
-        // console.log(previousState === newWord.correct);
-
-
-        if (areSameArr(previousState , newWord.correct)){
-            console.log (chalk.red("Incorrect!!!!!"));
-        } else {
-            previousState = newWord.correct;
-            console.log (chalk.green("Correct"));
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "guess a letter?",
+                name: "guess"
+            }
+        ]).then (function(response){
             
-        }
-        
-        // if (newWord.correctArr.indexOf(true) !== -1){
-        //     console.log ("Correct");
-        // } else {
-        //     console.log ("Incorrect");
-        // }
-        // console.log( "flag   " + newWord.flag);
-        // if (newWord.flag === 1) {
-        //     console.log ("Correct");
-        // } else {
-        //     console.log ("Incorrect");
-
-        // }
-        
-        // console.log ("newWord.allGussed   ~~~~~" , newWord.allGussed);
-        // playGame();
-
-        if (!newWord.allGussed){
-            // console.log("newWord.allGuessed  " + newWord.allGussed);   
-            playGame();
-        }
-        else{
-            console.log(chalk.bgCyan.bold("You got it right! Next word!"));
-            console.log("\n-------------------------\n");
-            tmp = randomWord();
-            newWord = new word(tmp);
-            //call makeLetters function on newWord to create an array of Letter objects
-            newWord.makeLetters();
+            guessLeft--;
+            userGuess = response.guess;
+            
+            //run the check function on new word object to see if any of its letters matches the user guess.
+            newWord.check(userGuess);
             newWord.toString();
-            console.log (newWord.toString());
-            
-            initialize();
-            playGame();
+            console.log (newWord.toString()); 
 
-        }
-    });
+
+            if (areSameArr(previousState , newWord.correct)){
+                console.log (chalk.red("Incorrect!!!!!"));
+            } else {
+                previousState = newWord.correct;
+                console.log (chalk.green("Correct"));
+                
+            }
+            
+            // if (newWord.correctArr.indexOf(true) !== -1){
+            //     console.log ("Correct");
+            // } else {
+            //     console.log ("Incorrect");
+            // }
+            // console.log( "flag   " + newWord.flag);
+            // if (newWord.flag === 1) {
+            //     console.log ("Correct");
+            // } else {
+            //     console.log ("Incorrect");
+
+            // }
+            
+            // console.log ("newWord.allGussed   ~~~~~" , newWord.allGussed);
+            // playGame();
+
+            if (!newWord.allGussed){
+                // console.log("newWord.allGuessed  " + newWord.allGussed);   
+                playGame();
+            }
+            else{
+                console.log(chalk.bgCyan.bold("You got it right! Next word!"));
+                console.log("\n-------------------------\n");
+                tmp = randomWord();
+                wordCount++;
+                console.log(chalk.magenta.bold.bgCyan("Word Number ") + wordCount);
+                
+                newWord = new word(tmp);
+                //call makeLetters function on newWord to create an array of Letter objects
+                newWord.makeLetters();
+                newWord.toString();
+                console.log (newWord.toString());
+                
+                initialize();
+                playGame();
+
+            }
+        });
+    } else {
+        console.log (chalk.red.bold("you have no guess left"));
+        console.log (chalk.red.bold("it was   ") + chalk.blue.bold(newWord.value));
+        console.log(chalk.green.bold("That's Ok, We have lots of other fruits for you to guess"));
+        console.log("\n-------------------------\n");
+        
+        // inquirer.prompt([
+        //     {
+        //         type:"confirm",
+        //         message : "You want to play more"
+
+        //     }
+        // ]).then(function(){
+
+        // });
+        guessLeft = 10;
+        tmp = randomWord();
+        wordCount++;
+        console.log(chalk.magenta.bold.bgCyan("Word Number ") + wordCount);
+        
+        newWord = new word(tmp);
+        //call makeLetters function on newWord to create an array of Letter objects
+        newWord.makeLetters();
+        newWord.toString();
+        console.log (newWord.toString());
+        
+        initialize();
+        playGame();
+    }
 
 }
 
 function areSameArr (a,b){
-    for(var i= 0 ; i < a.length ; i++){
+    for(var i = 0 ; i < a.length ; i++){
         if (a[i] !== b[i]){
             return false;
         }
