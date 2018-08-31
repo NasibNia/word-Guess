@@ -29,6 +29,8 @@ In every round of the game, a  random fruit name is picked by the code, the word
 
 If there are guesses left ; the game asks the player to make a guess. then would take this guess and checks it against all the letter objects inside the word object; if any of them change their guessed status from false to true, that would be considered as a correct guess. the display would also be updated accordingly to reveal the letter value. if not, the gamen continues until whether all the letters in the word are guessed correctly or player runs out of eligible number of guesses. In either case, player would be informed and new word will be created to continue the game. The function which picks random words, is set up such that once it provides one word to the player, rules that out from the further option so that player doesn't get redundant words. This has been done by setting up a tracker object at the very begining of the game. When all the words in our list are played by the user, the game reset the tracker object and goes through the list again.
 
+The project has been also added to my protfolio at [Portfolio](https://nasibnia.github.io/Updated-Portfolio/.)
+
  
 
 # Link to deployed site
