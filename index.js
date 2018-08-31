@@ -15,7 +15,7 @@ cFontDisplay("======================", 'chrome');
 
 
 // The list of words for the computer guess
-var list  = ["chry" , "ban" , "lim"];
+var list  = ["apple", "apricot", "avocado", "banana", "bilberry", "black sapote", "blackberry", "blackcurrant", "blueberry", "boysenberry", "cantaloupe", "cherry", "clementine", "cloudberry", "coconut", "crab apples", "cranberry", "cucumber", "currant", "damson", "date", "dragonfruit", "durian", "elderberry", "fig", "gooseberry", "grape", "grapefruit", "guava", "honeyberry", "honeydew", "huckleberry", "jackfruit", "jostaberry", "kiwi", "lemon", "lime", "mandarine", "mango", "mangosteen", "marionberry", "melon", "mulberry", "nectarine", "olive", "orange", "papaya", "passionfruit", "peach", "pear", "persimmon", "pineapple", "pineberry", "plum", "pomegranate", "prune", "raisin", "raspberry", "starfruit", "strawberry", "tangerine", "watermelon"];
 //This variable checks if all the words in the list are already guessed
 var outOfWords;
 // create a tracker object to not select a world which is already selected
@@ -160,9 +160,10 @@ function playGame (){
             else{
                 console.log(chalk.bgCyan.bold("You got it right! Next word!"));
                 console.log("\n-------------------------\n");
+                guessLeft = 10;
                 tmp = randomWord();
                 wordCount++;
-                console.log(chalk.magenta.bold.bgCyan("Word Number ") + wordCount);
+                console.log(chalk.magenta.bold.bgCyan("Word Number " + wordCount));
                 
                 newWord = new word(tmp);
                 //call makeLetters function on newWord to create an array of Letter objects
@@ -193,7 +194,7 @@ function playGame (){
         guessLeft = 10;
         tmp = randomWord();
         wordCount++;
-        console.log(chalk.magenta.bold.bgCyan("Word Number ") + wordCount);
+        console.log(chalk.magenta.bold.bgCyan("Word Number " + wordCount));
         
         newWord = new word(tmp);
         //call makeLetters function on newWord to create an array of Letter objects
